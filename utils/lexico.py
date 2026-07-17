@@ -2,16 +2,12 @@ from antlr4 import InputStream, CommonTokenStream, Token
 from antlr4.error.ErrorListener import ErrorListener
 from parser_antlr.ExprLexer import ExprLexer
 
-
 class ErroresLexicos(ErrorListener):
 
     def __init__(self):
         self.lista = []
 
-    # Metodo que ANTLR ejecuta cuando encuentra error lexico
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-
-        # Guardamos el error en la lista
         self.lista.append({
             "linea": line,
             "columna": column,
@@ -26,7 +22,6 @@ class AnalizadorLexico:
         self.tokens = None
         self.errores = ErroresLexicos()
 
-    # Metodo para analizar codigo
     def analizar(self, codigo):
 
         # Convertimos el texto en entrada para ANTLR
@@ -72,4 +67,4 @@ class AnalizadorLexico:
 
     # Metodo para obtener errores lexicos
     def obtener_errores(self):
-        return self.errores.lista
+        return self.errores.lista   
