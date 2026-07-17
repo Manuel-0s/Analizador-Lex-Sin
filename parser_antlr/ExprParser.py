@@ -2975,67 +2975,48 @@ class ExprParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-
-        def getRuleIndex(self):
-            return ExprParser.RULE_miembro_clase
-
-     
-        def copyFrom(self, ctx:ParserRuleContext):
-            super().copyFrom(ctx)
-
-
-
-    class PropiedadContext(Miembro_claseContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a ExprParser.Miembro_claseContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
         def var(self):
             return self.getTypedRuleContext(ExprParser.VarContext,0)
 
+
         def SEMICOLON(self):
             return self.getToken(ExprParser.SEMICOLON, 0)
+
         def modificador(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(ExprParser.ModificadorContext)
             else:
                 return self.getTypedRuleContext(ExprParser.ModificadorContext,i)
 
+
         def ASSIGN(self):
             return self.getToken(ExprParser.ASSIGN, 0)
+
         def valor(self):
             return self.getTypedRuleContext(ExprParser.ValorContext,0)
 
 
-
-    class MetodoContext(Miembro_claseContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a ExprParser.Miembro_claseContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
         def declarar_func(self):
             return self.getTypedRuleContext(ExprParser.Declarar_funcContext,0)
 
+
         def BRACE_OPEN(self):
             return self.getToken(ExprParser.BRACE_OPEN, 0)
+
         def bloque(self):
             return self.getTypedRuleContext(ExprParser.BloqueContext,0)
 
+
         def BRACE_CLOSE(self):
             return self.getToken(ExprParser.BRACE_CLOSE, 0)
-        def modificador(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(ExprParser.ModificadorContext)
-            else:
-                return self.getTypedRuleContext(ExprParser.ModificadorContext,i)
 
         def retorno(self):
             return self.getTypedRuleContext(ExprParser.RetornoContext,0)
 
-        def SEMICOLON(self):
-            return self.getToken(ExprParser.SEMICOLON, 0)
+
+        def getRuleIndex(self):
+            return ExprParser.RULE_miembro_clase
+
 
 
 
@@ -3049,7 +3030,6 @@ class ExprParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,44,self._ctx)
             if la_ == 1:
-                localctx = ExprParser.PropiedadContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 468
                 self._errHandler.sync(self)
@@ -3078,7 +3058,6 @@ class ExprParser ( Parser ):
                 pass
 
             elif la_ == 2:
-                localctx = ExprParser.MetodoContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 481
                 self._errHandler.sync(self)

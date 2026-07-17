@@ -2,7 +2,6 @@ import streamlit as st
 from utils.archivo import Archivo
 from utils.lexico import AnalizadorLexico
 from utils.sintactico import AnalizadorSintactico
-import time
 
 class App:
     
@@ -17,19 +16,11 @@ class App:
         st.title("Analizador Lexico y Sintactico")
         st.write("Esta aplicacion permite analizar codigo fuente y obtener los tokens y errores lexicos.")
 
-        metodo_entrada = st.pills("Metodo de entrada", ["Subir archivo", "Ingresar codigo"], key="metodo_entrada")
-        
-        match metodo_entrada:
-            case "Subir archivo":
-                self.codigo = st.file_uploader("Suba un archivo")
-                if self.codigo is not None:
-                    self.procesar_mostrar()
+        self.codigo = st.file_uploader("Suba un archivo")
+        if self.codigo is not None:
+            self.procesar_mostrar()
                 
-            case "Ingresar codigo":       
-                self.codigo = st.text_area("Ingrese el codigo", height=300)
-                        
-            case _:
-                return
+
                                   
     def procesar_mostrar(self):  
         archivo = Archivo(self.codigo)
