@@ -16,7 +16,7 @@ class Archivo:
 
     # Leer el contenido del archivo
     def leer_archivo(self):
-
+        
         # Leemos el archivo como bytes
         contenido_bytes = self.archivo.read()
 
@@ -30,5 +30,5 @@ class Archivo:
     def obtener_info(self):
         return {
             "nombre": self.nombre,
-            "extension": self.obtener_extension()
+            "extension": self.obtener_extension(),
         }

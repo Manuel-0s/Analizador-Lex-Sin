@@ -16,7 +16,27 @@ public class ExprParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		NUM=1, MAS=2, WS=3;
+		ABSTRACT=1, AND=2, ARRAY=3, AS=4, BREAK=5, CALLABLE=6, CASE=7, CATCH=8, 
+		CLASS=9, CLONE=10, CONST=11, CONTINUE=12, DECLARE=13, DEFAULT=14, DO=15, 
+		ECHO=16, ELSE=17, ELSEIF=18, EMPTY=19, ENDDECLARE=20, ENDFOR=21, ENDFOREACH=22, 
+		ENDIF=23, ENDSWITCH=24, ENDWHILE=25, EVAL=26, EXIT=27, EXTENDS=28, FINAL=29, 
+		FINALLY=30, FN=31, FOR=32, FOREACH=33, FUNCTION=34, GLOBAL=35, GOTO=36, 
+		IF=37, IMPLEMENTS=38, INCLUDE=39, INCLUDE_ONCE=40, INSTANCEOF=41, INSTEADOF=42, 
+		INTERFACE=43, ISSET=44, LIST=45, MATCH=46, NAMESPACE=47, NEW=48, OR=49, 
+		PRINT=50, PRIVATE=51, PROTECTED=52, PUBLIC=53, READONLY=54, REQUIRE=55, 
+		REQUIRE_ONCE=56, RETURN=57, STATIC=58, SWITCH=59, THROW=60, TRAIT=61, 
+		TRY=62, UNSET=63, USE=64, VAR=65, WHILE=66, LOGICAL_XOR=67, YIELD=68, 
+		YIELD_FROM=69, CADENA=70, IDT=71, NUM=72, PLUS=73, MINUS=74, MUL=75, DIV=76, 
+		MOD=77, POW=78, ASSIGN=79, PLUS_EQUAL=80, MINUS_EQUAL=81, MUL_EQUAL=82, 
+		DIV_EQUAL=83, MOD_EQUAL=84, POW_EQUAL=85, CONCAT_EQUAL=86, COALESCE_EQUAL=87, 
+		IS_EQUAL=88, IS_IDENTICAL=89, IS_NOT_EQUAL=90, IS_NOT_IDENTICAL=91, LT=92, 
+		GT=93, LE=94, GE=95, SPACESHIP=96, BOOLEAN_AND=97, BOOLEAN_OR=98, NOT=99, 
+		INC=100, DEC=101, DOT=102, QUESTION=103, COLON=104, COALESCE=105, ELLIPSIS=106, 
+		DOUBLE_ARROW=107, SEMICOLON=108, COMMA=109, PAREN_OPEN=110, PAREN_CLOSE=111, 
+		BRACE_OPEN=112, BRACE_CLOSE=113, BRACKET_OPEN=114, BRACKET_CLOSE=115, 
+		OBJECT_OPERATOR=116, DOUBLE_COLON=117, DOLLAR=118, NS_SEPARATOR=119, OPEN_TAG=120, 
+		CLOSE_TAG=121, LINE_COMMENT=122, BLOCK_COMMENT=123, HASH_COMMENT=124, 
+		WS=125;
 	public static final int
 		RULE_root = 0, RULE_expr = 1;
 	private static String[] makeRuleNames() {
@@ -28,13 +48,47 @@ public class ExprParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, "'+'"
+			null, "'abstract'", "'and'", "'array'", "'as'", "'break'", "'callable'", 
+			"'case'", "'catch'", "'class'", "'clone'", "'const'", "'continue'", "'declare'", 
+			"'default'", "'do'", "'echo'", "'else'", "'elseif'", null, "'enddeclare'", 
+			"'endfor'", "'endforeach'", "'endif'", "'endswitch'", "'endwhile'", "'eval'", 
+			null, "'extends'", "'final'", "'finally'", "'fn'", "'for'", "'foreach'", 
+			"'function'", "'global'", "'goto'", "'if'", "'implements'", "'include'", 
+			"'include_once'", "'instanceof'", "'insteadof'", "'interface'", "'isset'", 
+			"'list'", "'match'", "'namespace'", "'new'", "'or'", "'print'", "'private'", 
+			"'protected'", "'public'", "'readonly'", "'require'", "'require_once'", 
+			"'return'", "'static'", "'switch'", "'throw'", "'trait'", "'try'", "'unset'", 
+			"'use'", "'var'", "'while'", "'xor'", "'yield'", "'yield from'", null, 
+			null, null, "'+'", "'-'", "'*'", "'/'", "'%'", "'**'", "'='", "'+='", 
+			"'-='", "'*='", "'/='", "'%='", "'**='", "'.='", "'??='", "'=='", "'==='", 
+			null, "'!=='", "'<'", "'>'", "'<='", "'>='", "'<=>'", "'&&'", "'||'", 
+			"'!'", "'++'", "'--'", "'.'", "'?'", "':'", "'??'", "'...'", "'=>'", 
+			"';'", "','", "'('", "')'", "'{'", "'}'", "'['", "']'", "'->'", "'::'", 
+			"'$'", "'\\'", "'<?php'", "'?>'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "NUM", "MAS", "WS"
+			null, "ABSTRACT", "AND", "ARRAY", "AS", "BREAK", "CALLABLE", "CASE", 
+			"CATCH", "CLASS", "CLONE", "CONST", "CONTINUE", "DECLARE", "DEFAULT", 
+			"DO", "ECHO", "ELSE", "ELSEIF", "EMPTY", "ENDDECLARE", "ENDFOR", "ENDFOREACH", 
+			"ENDIF", "ENDSWITCH", "ENDWHILE", "EVAL", "EXIT", "EXTENDS", "FINAL", 
+			"FINALLY", "FN", "FOR", "FOREACH", "FUNCTION", "GLOBAL", "GOTO", "IF", 
+			"IMPLEMENTS", "INCLUDE", "INCLUDE_ONCE", "INSTANCEOF", "INSTEADOF", "INTERFACE", 
+			"ISSET", "LIST", "MATCH", "NAMESPACE", "NEW", "OR", "PRINT", "PRIVATE", 
+			"PROTECTED", "PUBLIC", "READONLY", "REQUIRE", "REQUIRE_ONCE", "RETURN", 
+			"STATIC", "SWITCH", "THROW", "TRAIT", "TRY", "UNSET", "USE", "VAR", "WHILE", 
+			"LOGICAL_XOR", "YIELD", "YIELD_FROM", "CADENA", "IDT", "NUM", "PLUS", 
+			"MINUS", "MUL", "DIV", "MOD", "POW", "ASSIGN", "PLUS_EQUAL", "MINUS_EQUAL", 
+			"MUL_EQUAL", "DIV_EQUAL", "MOD_EQUAL", "POW_EQUAL", "CONCAT_EQUAL", "COALESCE_EQUAL", 
+			"IS_EQUAL", "IS_IDENTICAL", "IS_NOT_EQUAL", "IS_NOT_IDENTICAL", "LT", 
+			"GT", "LE", "GE", "SPACESHIP", "BOOLEAN_AND", "BOOLEAN_OR", "NOT", "INC", 
+			"DEC", "DOT", "QUESTION", "COLON", "COALESCE", "ELLIPSIS", "DOUBLE_ARROW", 
+			"SEMICOLON", "COMMA", "PAREN_OPEN", "PAREN_CLOSE", "BRACE_OPEN", "BRACE_CLOSE", 
+			"BRACKET_OPEN", "BRACKET_CLOSE", "OBJECT_OPERATOR", "DOUBLE_COLON", "DOLLAR", 
+			"NS_SEPARATOR", "OPEN_TAG", "CLOSE_TAG", "LINE_COMMENT", "BLOCK_COMMENT", 
+			"HASH_COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -98,14 +152,6 @@ public class ExprParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_root; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ExprListener ) ((ExprListener)listener).enterRoot(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ExprListener ) ((ExprListener)listener).exitRoot(this);
-		}
 	}
 
 	public final RootContext root() throws RecognitionException {
@@ -138,14 +184,6 @@ public class ExprParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ExprListener ) ((ExprListener)listener).enterExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ExprListener ) ((ExprListener)listener).exitExpr(this);
-		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -170,7 +208,7 @@ public class ExprParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0003\n\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0001"+
+		"\u0004\u0001}\n\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0001"+
 		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0000"+
 		"\u0000\u0002\u0000\u0002\u0000\u0000\u0007\u0000\u0004\u0001\u0000\u0000"+
 		"\u0000\u0002\u0007\u0001\u0000\u0000\u0000\u0004\u0005\u0003\u0002\u0001"+

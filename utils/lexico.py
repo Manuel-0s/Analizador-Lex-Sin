@@ -17,19 +17,13 @@ class ErroresLexicos(ErrorListener):
             "columna": column,
             "mensaje": msg
         })
-    
-# Clase para hacer el analisis lexico
+
+
 class AnalizadorLexico:
 
     def __init__(self):
-
-        # Variable para guardar el lexer
         self.lexer = None
-
-        # Variable para guardar los tokens
         self.tokens = None
-
-        # Objeto para guardar errores lexicos
         self.errores = ErroresLexicos()
 
     # Metodo para analizar codigo
@@ -69,8 +63,8 @@ class AnalizadorLexico:
             resultado.append({
                 "lexema": token.text,
                 "token": nombre_token,
-                "tipo": token.type,
                 "linea": token.line,
+                "tipo": token.type,
                 "columna": token.column
             })
 
@@ -78,6 +72,4 @@ class AnalizadorLexico:
 
     # Metodo para obtener errores lexicos
     def obtener_errores(self):
-
-        # Retornamos la lista de errores
         return self.errores.lista
