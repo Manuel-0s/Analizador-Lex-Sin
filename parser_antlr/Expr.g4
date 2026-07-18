@@ -10,14 +10,14 @@ bloque : instruccion* ;
 
 instruccion
     : cond_if
-    | cond_while
-    | cond_for
-    | cond_foreach
+    | ciclo_while
+    | ciclo_for
+    | ciclo_foreach
     | cond_switch
     | manejo_excepcion
-    | control_salto
-    | echo
-    | declarar_var
+    | control_salto SEMICOLON
+    | echo SEMICOLON
+    | declarar_var SEMICOLON
     | expr_incremento SEMICOLON
     | llamada_funcion SEMICOLON
     | acceso_miembro SEMICOLON;
@@ -50,14 +50,14 @@ cond_if
     ( ELSEIF PAREN_OPEN condicional PAREN_CLOSE BRACE_OPEN bloque BRACE_CLOSE )*
     ( ELSE BRACE_OPEN bloque BRACE_CLOSE )? ;
 
-cond_while
+ciclo_while
     : WHILE PAREN_OPEN condicional PAREN_CLOSE BRACE_OPEN bloque BRACE_CLOSE;
 
-cond_for
+ciclo_for
     : FOR PAREN_OPEN declarar_var? SEMICOLON condicional? SEMICOLON expr_incremento? PAREN_CLOSE
       BRACE_OPEN bloque BRACE_CLOSE;
 
-cond_foreach
+ciclo_foreach
     : FOREACH PAREN_OPEN var AS (var DOUBLE_ARROW)? var PAREN_CLOSE
       BRACE_OPEN bloque BRACE_CLOSE;
 
@@ -72,7 +72,7 @@ manejo_excepcion
       (CATCH PAREN_OPEN IDT var PAREN_CLOSE BRACE_OPEN bloque BRACE_CLOSE)+
       (FINALLY BRACE_OPEN bloque BRACE_CLOSE)?;
 
-control_salto : (BREAK | CONTINUE) NUM? SEMICOLON;
+control_salto : (BREAK | CONTINUE) NUM?;
 
 condicional
     : condicional (BOOLEAN_AND | BOOLEAN_OR) condicional
@@ -85,15 +85,15 @@ condicional
 
 var : DOLLAR IDT ;
 
-expr_incremento : var (INC | DEC) | (INC | DEC) var;
+expr_incremento : var (INC | DEC) | (INC | DEC) var SEMICOLON;
 
 declarar_var
-    : var op_asignacion expr_matematica SEMICOLON
-    | var ASSIGN declarar_func SEMICOLON
-    | var ASSIGN declarar_array SEMICOLON
-    | var ASSIGN acceso_arreglo SEMICOLON
-    | var ASSIGN llamada_funcion SEMICOLON
-    | var ASSIGN ternario SEMICOLON;
+    : var op_asignacion expr_matematica 
+    | var ASSIGN declarar_func 
+    | var ASSIGN declarar_array 
+    | var ASSIGN acceso_arreglo 
+    | var ASSIGN llamada_funcion 
+    | var ASSIGN ternario;
 
 declarar_array
     : ARRAY BRACKET_OPEN elementos? BRACKET_CLOSE
@@ -116,7 +116,7 @@ expr_matematica
     | MINUS valor
     | valor;
 
-echo : ECHO valor (DOT valor)* SEMICOLON;
+echo : ECHO valor (DOT valor)*;
 
 // CLASES (POO)
 
@@ -133,7 +133,9 @@ modificador : PUBLIC | PRIVATE | PROTECTED | STATIC | ABSTRACT | FINAL;
 
 instanciacion : NEW IDT PAREN_OPEN argumentos? PAREN_CLOSE;
 
-acceso_miembro : var OBJECT_OPERATOR IDT (PAREN_OPEN argumentos? PAREN_CLOSE)?;
+acceso_miembro 
+    : var OBJECT_OPERATOR IDT (PAREN_OPEN argumentos? PAREN_CLOSE)?
+    | var OBJECT_OPERATOR IDT ASSIGN valor;
 
 acceso_estatico : IDT DOUBLE_COLON IDT;
 

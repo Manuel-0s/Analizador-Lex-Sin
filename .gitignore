@@ -1,1 +1,8 @@
 .venv/
+.antlr/
+
+*.tokens
+*.interp
+ExprLexer.py
+ExprParser.py
+ExprListener.py
